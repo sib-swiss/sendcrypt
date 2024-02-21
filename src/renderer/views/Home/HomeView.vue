@@ -15,6 +15,7 @@ import {useSendcryptAPI} from "@/renderer/composables/api";
 import {useToast} from "vue-toastification";
 import {Metadata} from "@/types";
 import log from 'electron-log/renderer';
+import {useErrors} from "@/renderer/composables/errors";
 
 const ipcRenderer = window.ipcRenderer
 const sessionStore = useSessionStore()
@@ -28,6 +29,7 @@ const { currentProfile } = storeToRefs(profilesStore)
 const gpgKeysStore = useGpgKeyStore()
 const {verifyPassphrase} = gpgKeysStore
 const {storeUpload} = useSendcryptAPI()
+const {formatError} = useErrors()
 const toast = useToast()
 
 const isLoading = ref(false)
@@ -78,7 +80,7 @@ async function send() {
             }
         })
         .catch((error: Error) => {
-            toast.error(error.message, {
+            toast.error(formatError(error.message), {
                 timeout: 0,
             })
             log.error(error)

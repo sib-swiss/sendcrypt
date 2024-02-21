@@ -67,8 +67,6 @@ const createWindow = () => {
     } else {
         mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
     }
-
-    // Open the DevTools.
 };
 
 const template: (Electron.MenuItemConstructorOptions | Electron.MenuItem)[] = [
@@ -103,6 +101,13 @@ const template: (Electron.MenuItemConstructorOptions | Electron.MenuItem)[] = [
                     shell.showItemInFolder(logPath)
                 }
             },
+            {
+                label: 'Show App Data',
+                click: async () => {
+                    const { shell } = await import('electron')
+                    shell.showItemInFolder(app.getPath('userData'))
+                }
+            },
             { type: 'separator' },
             {
                 label: 'Register',
@@ -121,7 +126,18 @@ Menu.setApplicationMenu(menu)
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+    createWindow();
+
+    app.on('second-instance', () => {
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) {
+                mainWindow.restore();
+            }
+            mainWindow.focus();
+        }
+    })
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

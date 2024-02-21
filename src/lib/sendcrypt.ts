@@ -8,6 +8,7 @@ import {Zip} from "./zip";
 import fs from "fs";
 import path from "node:path";
 import {addHistory} from "@/db/histories";
+import log from "electron-log/main";
 
 export class Sendcrypt {
     profile: Profile
@@ -55,32 +56,37 @@ export class Sendcrypt {
     }
 
     async send(filesJson: string, passphrase?: string) {
-        this.directoryExists(this.tmpDir)
+        try {
+            this.directoryExists(this.tmpDir)
 
-        this.setFiles(JSON.parse(filesJson) as Array<File>)
-        
-        const checksumFilePath = await this.checksumFile()
+            this.setFiles(JSON.parse(filesJson) as Array<File>)
 
-        const tarFilePath = await this.tarFile(checksumFilePath)
+            const checksumFilePath = await this.checksumFile()
 
-        const encryptedTarFilePath = await this.encryptedTarFile(tarFilePath)
+            const tarFilePath = await this.tarFile(checksumFilePath)
 
-        const {data: metadata, outputPath: metadataFilePath} = await this.metadataFile(encryptedTarFilePath)
+            const encryptedTarFilePath = await this.encryptedTarFile(tarFilePath)
 
-        const filesToZip = [encryptedTarFilePath, metadataFilePath]
+            const {data: metadata, outputPath: metadataFilePath} = await this.metadataFile(encryptedTarFilePath)
 
-        if (this.shouldSign) {
-            const signedMetadataFile = await this.signMetadataFile(metadataFilePath, passphrase)
-            filesToZip.push(signedMetadataFile)
+            const filesToZip = [encryptedTarFilePath, metadataFilePath]
+
+            if (this.shouldSign) {
+                const signedMetadataFile = await this.signMetadataFile(metadataFilePath, passphrase)
+                filesToZip.push(signedMetadataFile)
+            }
+
+            const zipFilePath = await this.zipFile(filesToZip)
+
+            await this.sendFile(zipFilePath)
+
+            await this.saveHistory(metadata)
+
+            return metadata
+        } catch (e) {
+            log.error(e)
+            throw e
         }
-
-        const zipFilePath = await this.zipFile(filesToZip)
-
-        await this.sendFile(zipFilePath)
-
-        await this.saveHistory(metadata)
-
-        return metadata
     }
 
     private async checksumFile() {
