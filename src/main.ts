@@ -123,12 +123,12 @@ const template: (Electron.MenuItemConstructorOptions | Electron.MenuItem)[] = [
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', () => {
-    createWindow();
+// This method will force the app to only run one instance
+const gotTheLock = app.requestSingleInstanceLock()
 
+if (!gotTheLock) {
+    app.quit()
+} else {
     app.on('second-instance', () => {
         if (mainWindow) {
             if (mainWindow.isMinimized()) {
@@ -137,7 +137,14 @@ app.on('ready', () => {
             mainWindow.focus();
         }
     })
-});
+
+    // This method will be called when Electron has finished
+    // initialization and is ready to create browser windows.
+    // Some APIs can only be used after this event occurs.
+    app.on('ready', () => {
+        createWindow();
+    })
+}
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
