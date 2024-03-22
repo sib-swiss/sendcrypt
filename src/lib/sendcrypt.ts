@@ -1,4 +1,4 @@
-import {Metadata as MetadataInterface, Profile, File} from "@/types";
+import {Metadata as MetadataInterface, Profile, File, GpgKeyIdentity} from "@/types";
 import {Hash} from "./checksum";
 import {Gpg} from "./gpg";
 import {Metadata} from "./metadata";
@@ -14,7 +14,7 @@ export class Sendcrypt {
     profile: Profile
     tmpDir: string
     files: Array<string> = []
-    gpgPrivateArmoredKey: string | null
+    gpgKeyIdentity: GpgKeyIdentity | null
     shouldSign = false
     hash: Hash
     gpg: Gpg
@@ -27,14 +27,15 @@ export class Sendcrypt {
         profile: Profile,
         tmpDir: string,
         sshPrivateKeyPath: string,
-        gpgPrivateArmoredKey: string | null,
+        gpgKeyIdentity: GpgKeyIdentity | null,
         sshPassphrase: string | undefined = undefined
     ) {
         this.profile = profile
+        this.gpgKeyIdentity = gpgKeyIdentity
         this.tmpDir = tmpDir
         this.hash = new Hash()
         this.gpg = new Gpg(tmpDir)
-        this.metadata = new Metadata(this.profile)
+        this.metadata = new Metadata(this.profile, this.gpgKeyIdentity.fingerprint)
         const sshPrivateKey = fs.readFileSync(sshPrivateKeyPath, 'utf8')
         this.sftp = new Sftp(
             profile.host,
@@ -45,8 +46,8 @@ export class Sendcrypt {
         )
         this.tar = new Tar()
         this.zip = new Zip(tmpDir)
-        this.gpgPrivateArmoredKey = gpgPrivateArmoredKey
-        if (this.gpgPrivateArmoredKey !== null) {
+        this.gpgKeyIdentity = gpgKeyIdentity
+        if (this.gpgKeyIdentity !== null) {
             this.shouldSign = true
         }
     }
@@ -129,14 +130,14 @@ export class Sendcrypt {
     private async signMetadataFile(metadataFilePath: string, passphrase?: string) {
         const outputPath = path.join(this.tmpDir, 'metadata.json.sig')
 
-        if (this.gpgPrivateArmoredKey === undefined || this.gpgPrivateArmoredKey === null) {
+        if (this.gpgKeyIdentity === undefined || this.gpgKeyIdentity === null) {
             throw new Error('Private key not found')
         }
 
         return await this.gpg.sign(
             metadataFilePath,
             outputPath,
-            this.gpgPrivateArmoredKey,
+            this.gpgKeyIdentity.private_key,
             passphrase
         )
     }
