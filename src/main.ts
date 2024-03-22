@@ -9,14 +9,14 @@ import {
     setSetting
 } from "@/electron-store/settings";
 import {addProfile, editProfile, getProfile, getProfiles, removeProfile} from "@/db/profiles";
-import {GpgKey, Profile, Settings} from "@/types";
+import {GpgKey, GpgKeyIdentity, Profile, Settings} from "@/types";
 import {importGpgKeyWindow, selectFilesWindow, selectKeyWindow, selectTmpDirWindow} from "@/utils/windows";
 import {addHistory, getHistories} from "@/db/histories";
 import fs from "fs";
 import {Keys} from "@/lib/keys";
 import {addGpgKey, getGpgKey, getGpgKeys} from "@/db/gpg_keys";
 import {Sendcrypt} from "@/lib/sendcrypt";
-import {updateElectronApp, UpdateSourceType} from "update-electron-app";
+import {updateElectronApp} from "update-electron-app";
 import log from 'electron-log/main';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -70,33 +70,33 @@ const createWindow = () => {
 };
 
 const template: (Electron.MenuItemConstructorOptions | Electron.MenuItem)[] = [
-    { role: 'appMenu' },
-    { role: 'fileMenu' },
-    { role: 'editMenu' },
-    { role: 'viewMenu' },
-    { role: 'windowMenu' },
+    {role: 'appMenu'},
+    {role: 'fileMenu'},
+    {role: 'editMenu'},
+    {role: 'viewMenu'},
+    {role: 'windowMenu'},
     {
         label: 'Help',
         submenu: [
             {
                 label: 'Help',
                 click: async () => {
-                    const { shell } = await import('electron')
+                    const {shell} = await import('electron')
                     await shell.openExternal('https://clinbiokb.sib.swiss/s/sendcrypt')
                 }
             },
             {
                 label: 'Getting started',
                 click: async () => {
-                    const { shell } = await import('electron')
+                    const {shell} = await import('electron')
                     await shell.openExternal('https://clinbiokb.sib.swiss/s/sendcrypt/doc/getting-started-7uRWXFnHx7')
                 }
             },
-            { type: 'separator' },
+            {type: 'separator'},
             {
                 label: 'Show log in Finder',
                 click: async () => {
-                    const { shell } = await import('electron')
+                    const {shell} = await import('electron')
                     const logPath = log.transports.file.getFile().path
                     shell.showItemInFolder(logPath)
                 }
@@ -104,15 +104,15 @@ const template: (Electron.MenuItemConstructorOptions | Electron.MenuItem)[] = [
             {
                 label: 'Show App Data',
                 click: async () => {
-                    const { shell } = await import('electron')
+                    const {shell} = await import('electron')
                     shell.showItemInFolder(app.getPath('userData'))
                 }
             },
-            { type: 'separator' },
+            {type: 'separator'},
             {
                 label: 'Register',
                 click: async () => {
-                    const { shell } = await import('electron')
+                    const {shell} = await import('electron')
                     await shell.openExternal('https://sendcrypt.sib.swiss/register')
                 }
             }
@@ -156,7 +156,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('web-contents-created', (event, contents) => {
-    contents.on('will-navigate', (event, navigationUrl) => {
+    contents.on('will-navigate', (event) => {
         event.preventDefault()
     })
 })
@@ -324,7 +324,10 @@ ipcMain.handle('gpg:import', async () => {
 ipcMain.handle('gpg:verify', async (_event, passphrase: string | undefined) => {
     const signingKey = getSetting('signingKey') as number | null
     if (signingKey === null) {
-        return new Promise<{ needsPassphrase: boolean, passphrase?: string }>((resolve) => resolve({needsPassphrase: false}))
+        return new Promise<{
+            needsPassphrase: boolean,
+            passphrase?: string
+        }>((resolve) => resolve({needsPassphrase: false}))
     }
     const keys = new Keys()
     const gpgKeys = await getGpgKey(signingKey)
@@ -367,7 +370,7 @@ ipcMain.handle('file:send', async (_event, json: string, passphrase?: string) =>
     }
 
     const currentSigningKeyId = getSetting('signingKey') as number
-    const currentGpgKey = await getGpgKey(currentSigningKeyId) as GpgKey
+    const currentGpgKey = await getGpgKey(currentSigningKeyId) as GpgKeyIdentity
 
     if (currentSigningKeyId === null || currentGpgKey === undefined) {
         throw new Error('No GPG key selected')
@@ -375,10 +378,10 @@ ipcMain.handle('file:send', async (_event, json: string, passphrase?: string) =>
 
     const sendcrypt = new Sendcrypt(
         currentProfile,
-            getSetting('tmpDir') as string,
-            getSetting('sshPrivateKeyPath') as string,
-            currentGpgKey.private_key,
-            getEncryptedSetting('sshPassphrase') as string | undefined,
+        getSetting('tmpDir') as string,
+        getSetting('sshPrivateKeyPath') as string,
+        currentGpgKey,
+        getEncryptedSetting('sshPassphrase') as string | undefined,
     )
 
     return await sendcrypt.send(json, passphrase)
@@ -403,8 +406,8 @@ ipcMain.handle('login:token', async (_event, token: string) => {
     const keys = new Keys()
     const payload = await keys.openBox(
         box,
-            getSetting('X25519PublicSessionKey') as string,
-            getSetting('X25519PrivateSessionKey') as string
+        getSetting('X25519PublicSessionKey') as string,
+        getSetting('X25519PrivateSessionKey') as string
     )
     mainWindow.webContents.send('login', JSON.parse(payload))
     setTimeout(() => {
