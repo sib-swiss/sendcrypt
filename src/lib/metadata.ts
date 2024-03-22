@@ -1,7 +1,7 @@
 import {app} from "electron";
 import {readKey} from "openpgp";
 import {Hash} from "./checksum";
-import {Profile, Metadata as MetadataInfo} from "@/types";
+import {Metadata as MetadataInfo, Profile} from "@/types";
 import fs from "fs";
 
 export interface Metadata {
@@ -16,9 +16,11 @@ export class Metadata implements Metadata {
     profile: Profile
     checksum_algorithm = 'SHA256'
     compression_algorithm = 'gzip'
+    signing_key_fingerprint: string
 
-    constructor(profile: Profile) {
+    constructor(profile: Profile, fingerprint: string) {
         this.profile = profile
+        this.signing_key_fingerprint = fingerprint
     }
 
     async fingerprint(publicKeyArmored: string) {
@@ -52,6 +54,7 @@ export class Metadata implements Metadata {
         const data: MetadataInfo = {
             project: this.profile.name,
             recipients: [await this.fingerprint(this.profile.gpg_key)],
+            sender: this.signing_key_fingerprint,
             timestamp: await this.timestamp(),
             checksum: await (new Hash()).checksum(archivePath, 'sha256'),
             checksum_algorithm: this.checksum_algorithm,

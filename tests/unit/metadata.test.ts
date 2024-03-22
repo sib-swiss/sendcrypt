@@ -73,7 +73,7 @@ const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vitest-electron'))
 const outputFilePath = path.join(tempDir, 'metadata.json')
 
 test('metadata can generate the json file', async () => {
-    const metadata = new Metadata(profile)
+    const metadata = new Metadata(profile, 'fake-fingerprint')
     await metadata.save(filePath, outputFilePath)
     const stats = fs.statSync(outputFilePath)
     expect(stats.size).toBeGreaterThan(0)

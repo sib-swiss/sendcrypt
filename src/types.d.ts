@@ -51,6 +51,7 @@ export interface History {
 export interface Metadata {
     project: string,
     recipients: Array<string>,
+    sender: string,
     timestamp: string,
     checksum: string,
     checksum_algorithm: string,
