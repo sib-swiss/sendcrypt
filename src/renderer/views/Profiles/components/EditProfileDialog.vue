@@ -78,48 +78,49 @@ async function submit() {
                     <v-card-text>
                         <ProfileTextInput
                             v-model="form.name"
-                            :rules="[rules.required, rules.min, rules.max]"
+                            :rules="[]"
                             placeholder="My project"
                             label="Project name"
                             type="text"
                         />
                         <ProfileTextInput
                             v-model="form.username"
-                            :rules="[rules.required]"
+                            :rules="[]"
                             placeholder="user"
                             label="Username"
                             type="text"
                         />
                         <ProfileTextInput
                             v-model="form.url"
-                            :rules="[rules.required, rules.url]"
+                            :rules="[]"
                             placeholder="https://sendcrypt.sib.swiss/api/v1/test"
-                            label="API URL"
+                            label="API URL (optional)"
                             type="text"
                         />
                         <ProfileTextInput
                             v-model="form.host"
+                            :rules="[]"
                             placeholder="example.com"
                             label="Host"
                             type="text"
                         />
                         <ProfileTextInput
                             v-model="form.port"
-                            :rules="[rules.required, rules.number]"
+                            :rules="[]"
                             placeholder="22"
                             label="Port"
                             type="number"
                         />
                         <ProfileTextInput
                             v-model="form.remote_path"
-                            :rules="[rules.required, rules.path]"
+                            :rules="[]"
                             placeholder="/data"
                             label="Remote path"
                             type="text"
                         />
                         <ProfileTextarea
                             v-model="form.gpg_key"
-                            :rules="[rules.required]"
+                            :rules="[]"
                             placeholder="Paste your PGP key here"
                             label="Public PGP key"
                         />
