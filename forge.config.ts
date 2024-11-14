@@ -1,9 +1,6 @@
 import type {ForgeConfig} from '@electron-forge/shared-types';
-import {MakerSquirrel} from '@electron-forge/maker-squirrel';
 import {MakerZIP} from '@electron-forge/maker-zip';
-import {MakerDeb} from '@electron-forge/maker-deb';
 import {VitePlugin} from '@electron-forge/plugin-vite';
-import {MakerDMG} from "@electron-forge/maker-dmg";
 import 'dotenv/config';
 
 const config: ForgeConfig = {
@@ -47,26 +44,34 @@ const config: ForgeConfig = {
         new MakerZIP({}, [
             'darwin',
         ]),
-        new MakerSquirrel({
-            iconUrl: 'https://sendcrypt.sib.swiss/favicon.ico',
-            setupIcon: 'icons/icon.ico',
-            name: 'SendCrypt',
-            signWithParams: '/tr http://timestamp.sectigo.com /td sha256 /fd sha256',
-        }),
-        new MakerDeb({
-            options: {
-                icon: 'icons/icon.png',
-                maintainer: 'SIB - Swiss Institute of Bioinformatics',
-                homepage: 'https://sendcrypt.sib.swiss',
-                name: 'SendCrypt'
+        {
+            name: '@electron-forge/maker-squirrel',
+            config: {
+                iconUrl: 'https://sendcrypt.sib.swiss/favicon.ico',
+                setupIcon: 'icons/icon.ico',
+                name: 'SendCrypt',
+                signWithParams: '/tr http://timestamp.sectigo.com /td sha256 /fd sha256',
             }
-        }),
-        new MakerDMG({
-            name: 'SendCrypt',
-            format: 'ULFO',
-            icon: 'icons/icon.icns',
-            appPath: 'out/SendCrypt-darwin-x64/SendCrypt.app',
-        })
+        },
+        {
+            name: '@electron-forge/maker-deb',
+            config: {
+                options: {
+                    icon: 'icons/icon.png',
+                    maintainer: 'SIB - Swiss Institute of Bioinformatics',
+                    homepage: 'https://sendcrypt.sib.swiss',
+                    name: 'SendCrypt'
+                }
+            }
+        },
+        {
+            name: '@electron-forge/maker-dmg',
+            config: {
+                name: 'SendCrypt',
+                icon: 'icons/icon.icns',
+                format: 'ULFO',
+            }
+        },
     ],
     plugins: [
         {
