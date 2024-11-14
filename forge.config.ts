@@ -64,7 +64,8 @@ const config: ForgeConfig = {
         new MakerDMG({
             name: 'SendCrypt',
             format: 'ULFO',
-            icon: 'icons/icon.icns'
+            icon: 'icons/icon.icns',
+            appPath: 'out/SendCrypt-darwin-x64/SendCrypt.app',
         })
     ],
     plugins: [
