@@ -36,6 +36,7 @@ export class Sftp implements Sftp {
 
         const sftp = ssh.sftp()
 
-        await sftp.fastPut(localPath, `${remotePath}/${path.basename(localPath)}`)
+        await sftp.fastPut(localPath, `${remotePath}/${path.basename(localPath)}.part`)
+        await sftp.rename(`${remotePath}/${path.basename(localPath)}.part`, `${remotePath}/${path.basename(localPath)}`)
     }
 }
