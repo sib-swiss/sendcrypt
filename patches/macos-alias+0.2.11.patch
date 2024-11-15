@@ -1,42 +1,42 @@
 diff --git a/node_modules/macos-alias/build/Makefile b/node_modules/macos-alias/build/Makefile
-index 714c747..1a1bba5 100644
+index 9860e30..9107246 100644
 --- a/node_modules/macos-alias/build/Makefile
 +++ b/node_modules/macos-alias/build/Makefile
 @@ -331,8 +331,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
  endif
  
  quiet_cmd_regen_makefile = ACTION Regenerating $@
--cmd_regen_makefile = cd $(srcdir); /Users/dterumal/.nvm/versions/node/v23.1.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/dterumal/Library/Caches/node-gyp/23.1.0" "-Dnode_gyp_dir=/Users/dterumal/.nvm/versions/node/v23.1.0/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/Users/dterumal/Library/Caches/node-gyp/23.1.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/private/var/folders/4_/jdmvpyxn7633x94l12c20nd40000gn/T/tmp-33910q4U1IaO2aIn7/node_modules/macos-alias" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/private/var/folders/4_/jdmvpyxn7633x94l12c20nd40000gn/T/tmp-33910q4U1IaO2aIn7/node_modules/macos-alias/build/config.gypi -I/Users/dterumal/.nvm/versions/node/v23.1.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/dterumal/Library/Caches/node-gyp/23.1.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
--Makefile: $(srcdir)/../../../../../../../../../Users/dterumal/Library/Caches/node-gyp/23.1.0/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/../../../../../../../../../Users/dterumal/.nvm/versions/node/v23.1.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi $(srcdir)/binding.gyp
-+cmd_regen_makefile = cd $(srcdir); /Users/dterumal/Code/electron/sendcrypt/node_modules/@electron/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/dterumal/Library/Caches/node-gyp/23.1.0" "-Dnode_gyp_dir=/Users/dterumal/Code/electron/sendcrypt/node_modules/@electron/node-gyp" "-Dnode_lib_file=/Users/dterumal/Library/Caches/node-gyp/23.1.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/dterumal/Code/electron/sendcrypt/node_modules/macos-alias" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/dterumal/Code/electron/sendcrypt/node_modules/macos-alias/build/config.gypi -I/Users/dterumal/Code/electron/sendcrypt/node_modules/@electron/node-gyp/addon.gypi -I/Users/dterumal/Library/Caches/node-gyp/23.1.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
-+Makefile: $(srcdir)/build/config.gypi $(srcdir)/../../../../../Library/Caches/node-gyp/23.1.0/include/node/common.gypi $(srcdir)/binding.gyp $(srcdir)/../@electron/node-gyp/addon.gypi
+-cmd_regen_makefile = cd $(srcdir); /Users/dterumal/.nvm/versions/node/v23.2.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/dterumal/Library/Caches/node-gyp/23.2.0" "-Dnode_gyp_dir=/Users/dterumal/.nvm/versions/node/v23.2.0/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/Users/dterumal/Library/Caches/node-gyp/23.2.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/private/var/folders/4_/jdmvpyxn7633x94l12c20nd40000gn/T/tmp-41775xMjwnVyzGlDL/node_modules/macos-alias" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/private/var/folders/4_/jdmvpyxn7633x94l12c20nd40000gn/T/tmp-41775xMjwnVyzGlDL/node_modules/macos-alias/build/config.gypi -I/Users/dterumal/.nvm/versions/node/v23.2.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/dterumal/Library/Caches/node-gyp/23.2.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
+-Makefile: $(srcdir)/binding.gyp $(srcdir)/../../../../../../../../../Users/dterumal/Library/Caches/node-gyp/23.2.0/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/../../../../../../../../../Users/dterumal/.nvm/versions/node/v23.2.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi
++cmd_regen_makefile = cd $(srcdir); /Users/dterumal/Code/electron/sendcrypt/node_modules/@electron/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/dterumal/Library/Caches/node-gyp/23.2.0" "-Dnode_gyp_dir=/Users/dterumal/Code/electron/sendcrypt/node_modules/@electron/node-gyp" "-Dnode_lib_file=/Users/dterumal/Library/Caches/node-gyp/23.2.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/dterumal/Code/electron/sendcrypt/node_modules/macos-alias" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/dterumal/Code/electron/sendcrypt/node_modules/macos-alias/build/config.gypi -I/Users/dterumal/Code/electron/sendcrypt/node_modules/@electron/node-gyp/addon.gypi -I/Users/dterumal/Library/Caches/node-gyp/23.2.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
++Makefile: $(srcdir)/../../../../../Library/Caches/node-gyp/23.2.0/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/../@electron/node-gyp/addon.gypi $(srcdir)/binding.gyp
  	$(call do_cmd,regen_makefile)
  
  # "all" is a concatenation of the "all" targets from all the included
 diff --git a/node_modules/macos-alias/build/Release/obj.target/volume/src/volume.o b/node_modules/macos-alias/build/Release/obj.target/volume/src/volume.o
-index 26c58a3..18779e7 100644
+index a109665..89db076 100644
 Binary files a/node_modules/macos-alias/build/Release/obj.target/volume/src/volume.o and b/node_modules/macos-alias/build/Release/obj.target/volume/src/volume.o differ
 diff --git a/node_modules/macos-alias/build/Release/volume.node b/node_modules/macos-alias/build/Release/volume.node
-index da15f54..a04bf9d 100755
+index 48b31a7..f9fd720 100755
 Binary files a/node_modules/macos-alias/build/Release/volume.node and b/node_modules/macos-alias/build/Release/volume.node differ
 diff --git a/node_modules/macos-alias/build/config.gypi b/node_modules/macos-alias/build/config.gypi
-index 8bf550d..9f4f566 100644
+index 59dc38e..185441a 100644
 --- a/node_modules/macos-alias/build/config.gypi
 +++ b/node_modules/macos-alias/build/config.gypi
-@@ -443,12 +443,11 @@
+@@ -444,12 +444,11 @@
      "python": "/Library/Developer/CommandLineTools/usr/bin/python3",
      "standalone_static_library": 1,
-     "global_prefix": "/Users/dterumal/.nvm/versions/node/v23.1.0",
--    "local_prefix": "/private/var/folders/4_/jdmvpyxn7633x94l12c20nd40000gn/T/tmp-33910q4U1IaO2aIn7",
+     "global_prefix": "/Users/dterumal/.nvm/versions/node/v23.2.0",
+-    "local_prefix": "/private/var/folders/4_/jdmvpyxn7633x94l12c20nd40000gn/T/tmp-41775xMjwnVyzGlDL",
 +    "local_prefix": "/Users/dterumal/Code/electron/sendcrypt",
-     "globalconfig": "/Users/dterumal/.nvm/versions/node/v23.1.0/etc/npmrc",
+     "globalconfig": "/Users/dterumal/.nvm/versions/node/v23.2.0/etc/npmrc",
      "userconfig": "/Users/dterumal/.npmrc",
      "init_module": "/Users/dterumal/.npm-init.js",
      "npm_version": "10.9.0",
 -    "force": "true",
-     "node_gyp": "/Users/dterumal/.nvm/versions/node/v23.1.0/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js",
+     "node_gyp": "/Users/dterumal/.nvm/versions/node/v23.2.0/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js",
      "cache": "/Users/dterumal/.npm",
-     "user_agent": "npm/10.9.0 node/v23.1.0 darwin x64 workspaces/false",
+     "user_agent": "npm/10.9.0 node/v23.2.0 darwin x64 workspaces/false",
 diff --git a/node_modules/macos-alias/lib/encode.js b/node_modules/macos-alias/lib/encode.js
 index ee47929..d43dae2 100644
 --- a/node_modules/macos-alias/lib/encode.js
