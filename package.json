@@ -15,7 +15,8 @@
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx,.vue .",
     "typecheck": "vue-tsc --noEmit",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "patch-package"
   },
   "keywords": [],
   "author": {
