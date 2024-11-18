@@ -2,6 +2,9 @@ import type {ForgeConfig} from '@electron-forge/shared-types';
 import {MakerZIP} from '@electron-forge/maker-zip';
 import {VitePlugin} from '@electron-forge/plugin-vite';
 import 'dotenv/config';
+import MakerDeb from "@electron-forge/maker-deb";
+import MakerSquirrel from "@electron-forge/maker-squirrel";
+import MakerDMG from "@electron-forge/maker-dmg";
 
 const config: ForgeConfig = {
     publishers: [
@@ -44,34 +47,30 @@ const config: ForgeConfig = {
         new MakerZIP({}, [
             'darwin',
         ]),
-        {
-            name: '@electron-forge/maker-squirrel',
-            config: {
-                iconUrl: 'https://sendcrypt.sib.swiss/favicon.ico',
-                setupIcon: 'icons/icon.ico',
+        new MakerSquirrel({
+            iconUrl: 'https://sendcrypt.sib.swiss/favicon.ico',
+            setupIcon: 'icons/icon.ico',
+            name: 'SendCrypt',
+            signWithParams: '/tr http://timestamp.sectigo.com /td sha256 /fd sha256',
+        }),
+        new MakerDeb({
+            options: {
+                genericName: 'sendcrypt',
+                productName: 'SendCrypt',
+                icon: 'icons/icon.png',
+                maintainer: 'SIB - Swiss Institute of Bioinformatics',
+                homepage: 'https://sendcrypt.sib.swiss',
                 name: 'SendCrypt',
-                signWithParams: '/tr http://timestamp.sectigo.com /td sha256 /fd sha256',
-            }
-        },
-        {
-            name: '@electron-forge/maker-deb',
-            config: {
-                options: {
-                    icon: 'icons/icon.png',
-                    maintainer: 'SIB - Swiss Institute of Bioinformatics',
-                    homepage: 'https://sendcrypt.sib.swiss',
-                    name: 'SendCrypt'
-                }
-            }
-        },
-        {
-            name: '@electron-forge/maker-dmg',
-            config: {
-                name: 'SendCrypt',
-                icon: 'icons/icon.icns',
-                format: 'ULFO',
-            }
-        },
+                categories: ['Utility'],
+                description: 'SendCrypt is a secure and easy-to-use file sharing application.',
+            },
+        }),
+        new MakerDMG({
+            name: 'SendCrypt',
+            icon: 'icons/icon.icns',
+            format: 'ULFO',
+            appPath: 'SendCrypt.app',
+        }),
     ],
     plugins: [
         {
