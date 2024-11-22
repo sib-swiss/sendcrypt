@@ -20,6 +20,7 @@ import {useErrors} from "@/renderer/composables/errors";
 const ipcRenderer = window.ipcRenderer
 const sessionStore = useSessionStore()
 const {passphrase, isAuthenticated} = storeToRefs(sessionStore)
+const {resetPassphrase} = sessionStore
 const filesStore = useFilesStore()
 const { formatFileSize } = useFormatter()
 const {files, mappedFiles} = storeToRefs(filesStore)
@@ -62,6 +63,7 @@ async function checkPassphrase() {
     const isPassphraseValid = await verifyPassphrase(passphrase.value)
     if (!isPassphraseValid) {
         isPassphraseRequired.value = true
+        resetPassphrase()
     } else {
         await send()
     }

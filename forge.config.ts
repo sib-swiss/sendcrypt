@@ -30,6 +30,17 @@ const config: ForgeConfig = {
     ],
     packagerConfig: {
         asar: true,
+        ignore: [
+            '.idea',
+            '.env',
+            '.eslintrc.js',
+            '.gitignore',
+            'CONTRIBUTING.md',
+            'forge.config.ts',
+            'README.md',
+            'screenshot.png',
+            'tsconfig.json',
+        ],
         icon: 'icons/icon',
         osxSign: {
             identity: 'Developer ID Application: SIB Institut Suisse de Bioinformatique (7FTLFTUA9T)',
@@ -40,7 +51,7 @@ const config: ForgeConfig = {
             teamId: process.env.TEAM_ID,
         },
         appCopyright: `© ${new Date().getUTCFullYear()} SIB Swiss Institute of Bioinformatics - All rights reserved`,
-        appBundleId: 'sib.swiss.sendcrypt',
+        appBundleId: 'sib.swiss.sendcrypt'
     },
     rebuildConfig: {},
     makers: [
@@ -55,14 +66,9 @@ const config: ForgeConfig = {
         }),
         new MakerDeb({
             options: {
-                genericName: 'sendcrypt',
-                productName: 'SendCrypt',
-                icon: 'icons/icon.png',
-                maintainer: 'SIB - Swiss Institute of Bioinformatics',
-                homepage: 'https://sendcrypt.sib.swiss',
                 name: 'SendCrypt',
-                categories: ['Utility'],
-                description: 'SendCrypt is a secure and easy-to-use file sharing application.',
+                icon: 'icons/icon.png',
+                bin: 'SendCrypt'
             },
         }),
         new MakerDMG({
