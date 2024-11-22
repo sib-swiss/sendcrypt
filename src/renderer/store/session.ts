@@ -23,6 +23,10 @@ export const useSessionStore = defineStore('session', () => {
         return passphrase.value !== null || passphrase.value !== ''
     }
 
+    function resetPassphrase() {
+        passphrase.value = ''
+    }
+
     function setSession(data: Session) {
         session.value = data
         localStorage.setItem('session', JSON.stringify(data))
@@ -47,6 +51,7 @@ export const useSessionStore = defineStore('session', () => {
         passphrase,
         savePassphrase,
         hasPassphrase,
+        resetPassphrase,
         session,
         isAuthenticated,
         email,
