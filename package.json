@@ -5,7 +5,7 @@
     "url": "https://github.com/sib-swiss/sendcrypt.git"
   },
   "productName": "SendCrypt",
-  "version": "1.0.7",
+  "version": "1.0.5",
   "description": "Securely send encrypted sensitive data by SFTP",
   "main": ".vite/build/main.js",
   "scripts": {
